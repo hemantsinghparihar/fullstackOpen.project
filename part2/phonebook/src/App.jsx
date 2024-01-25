@@ -8,12 +8,33 @@ const App = () => {
 
   const handleAddPerson=(event)=>{
     event.preventDefault(); //this prevent the default behaviour of form submission which is reloading the page automatically when the form is submitted
+    
      const newPerson={
       name:newName,
      }
-     setPersons(persons.concat(newPerson));
-console.log('✌️persons.concat(newPerson) --->', persons.concat(newPerson));
-     setNewName("")
+     //checking if the person already exists
+     const areObjEqual=(person,newPerson)=>{
+      
+      if(person.name===newPerson.name){
+        return true 
+      }
+      else{
+        return false //if the name do not match with any existing name return a false
+      }
+            
+     }
+     
+     const ifAleadyExists=persons.some(person=>areObjEqual(person,newPerson))
+     if(ifAleadyExists){
+      alert(`${newPerson.name} already exists here bro stop copying other's name  please!`)
+     }
+     else{
+      const persiano=persons.concat(newPerson)
+      // setPersons(persons.concat(newPerson));
+      setPersons(persiano)
+      console.log('persons.concat(newPerson) --->', persons.concat(newPerson));
+       setNewName("")
+    }
      
 
   }
@@ -37,7 +58,7 @@ console.log('✌️persons.concat(newPerson) --->', persons.concat(newPerson));
       </form>
       <h2>Numbers</h2>
       {persons.map(person=>
-        <p>{person.name}</p>
+        <p key={person.name}>{person.name}</p>
         )}
       {/* <p>{persons[0].name}</p> */}
        
