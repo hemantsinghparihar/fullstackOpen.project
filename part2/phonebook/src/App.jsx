@@ -1,4 +1,7 @@
 import { useState } from 'react'
+import Numbers from './Numbers'
+import AddPerson from './AddPerson'
+import Phonebook from './Phonebook'
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -74,7 +77,8 @@ const App = () => {
   return (
     <div>
       <h1>Phonebook</h1>
-      <div>
+      <Phonebook filter={filter} hadleFiltering={hadleFiltering} filteredUsers={filteredUsers} />
+      {/* <div>
         filter by name: <input type="text" value={filter} onChange={hadleFiltering}/>
         <ul>
         {filteredUsers.map(user => (
@@ -83,9 +87,10 @@ const App = () => {
           </li>
         ))}
       </ul>
-      </div>
+      </div> */}
       <h2>Add A New Person</h2>
-      <form onSubmit={handleAddPerson}>
+      <AddPerson newName={newName} handleNewName={handleNewName} newNum={newNum} handleNewNum={handleNewNum} handleAddPerson={handleAddPerson}/>
+      {/* <form onSubmit={handleAddPerson}>
         <div>
           name: <input type='text' value={newName} onChange={handleNewName}/>
           number: <input type='number' value={newNum} onChange={handleNewNum}/> 
@@ -93,11 +98,12 @@ const App = () => {
         <div>
           <button type="submit">add</button>
         </div>
-      </form>
-      <h2>Numbers</h2>
+      </form> */}
+      <Numbers persons={persons}/>
+      {/* <h2>Numbers</h2>
       {persons.map(person=>
         <p key={person.name}>{person.name} -  {person.number}</p>
-        )}
+        )} */}
       {/* <p>{persons[0].name}</p> */}
        
        
