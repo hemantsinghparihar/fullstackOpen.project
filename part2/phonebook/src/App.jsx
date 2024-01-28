@@ -6,6 +6,7 @@ import Phonebook from './Phonebook'
 
 const App = () => {
   const [persons, setPersons] = useState([]) 
+console.log('✌️persons --->', persons);
   const [newName, setNewName] = useState('');
   const [newNum, setNewNum] = useState('');
   const [filter, setfilter] = useState('');
@@ -18,7 +19,8 @@ const App = () => {
       .get('http://localhost:3001/persons')
       .then(response => {
         console.log('promise fulfilled')
-        setPersons(response.data)
+        const persons=response.data
+        setPersons(persons)
       })
   }, [])
 
@@ -34,7 +36,7 @@ const App = () => {
      //checking if the person already exists
      const areObjEqual=(person,newPerson)=>{
       
-      if(person.name===newPerson.name){
+      if(person.name.toLowerCase()===newPerson.name.toLowerCase()){
         return true 
       }
       else{
@@ -42,15 +44,22 @@ const App = () => {
       }
             
      }
-     
+     console.log('✌️persons before comparing --->', persons);
      const ifAleadyExists=persons.some(person=>areObjEqual(person,newPerson))
+ 
      if(ifAleadyExists){
       alert(`${newPerson.name} already exists here bro stop copying other's name  please!`)
      }
      else{
-      const persiano=persons.concat(newPerson)
-      // setPersons(persons.concat(newPerson));
-      setPersons(persiano)
+      // const persiano=persons.concat(newPerson)
+      // // setPersons(persons.concat(newPerson));
+      // setPersons(persiano)
+      axios
+    .post('http://localhost:3001/persons', newPerson)
+    .then(response => {
+      setPersons(persons.concat(response.data))
+      //setNewNote('')
+    })
       console.log('persons.concat(newPerson) --->', persons.concat(newPerson));
        setNewName("")
        setNewNum("")
