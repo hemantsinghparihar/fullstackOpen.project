@@ -1,16 +1,26 @@
-import { useState } from 'react'
+import { useState,useEffect } from 'react'
+import axios from 'axios'
 import Numbers from './Numbers'
 import AddPerson from './AddPerson'
 import Phonebook from './Phonebook'
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: 'Arto Hellas',number:7417111462 },{ name: 'hemu singh',number:74172222 },{ name: 'hemant parihar',number:74172222 }
-  ]) 
+  const [persons, setPersons] = useState([]) 
   const [newName, setNewName] = useState('');
   const [newNum, setNewNum] = useState('');
   const [filter, setfilter] = useState('');
   const [filteredUsers, setfilterUser] = useState([]);
+
+
+  useEffect(() => {
+    console.log('effect')
+    axios
+      .get('http://localhost:3001/persons')
+      .then(response => {
+        console.log('promise fulfilled')
+        setPersons(response.data)
+      })
+  }, [])
 
   // ----------------handling addition of the new inputs---------------------
 
@@ -68,6 +78,7 @@ const App = () => {
       user.name.toLowerCase().includes(filter)
     );
     setfilterUser(filtered)
+    
 
   }
   //processing part  --------------
