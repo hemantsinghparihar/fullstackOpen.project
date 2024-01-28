@@ -1,5 +1,6 @@
 import { useState,useEffect } from 'react'
 import axios from 'axios'
+import personService from './services/personsServices';
 import Numbers from './Numbers'
 import AddPerson from './AddPerson'
 import Phonebook from './Phonebook'
@@ -13,20 +14,26 @@ console.log('✌️persons --->', persons);
   const [filteredUsers, setfilterUser] = useState([]);
 
 
+  // useEffect(() => {
+  //   console.log('effect')
+  //   axios
+  //     .get('http://localhost:3001/personsTest')
+  //     .then(response => {
+  //       console.log('promise fulfilled')
+  //       const personsTest=response.data
+  //       setPersons(personsTest)
+  //       console.log("kya sabse pahle use effect chalta hai agar chalta hai tb to ..")
+  //     })
+  // }, [])
   useEffect(() => {
-    console.log('effect')
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        console.log('promise fulfilled')
-        const persons=response.data
-        setPersons(persons)
-      })
-  }, [])
+    personService.getAllPersons().then(initialPersons => {
+      setPersons(initialPersons);
+    });
+  }, []);
 
   // ----------------handling addition of the new inputs---------------------
 
-  const handleAddPerson=(event)=>{
+  const handleAddPerson=async(event)=>{
     event.preventDefault(); //this prevent the default behaviour of form submission which is reloading the page automatically when the form is submitted
     
      const newPerson={
@@ -54,12 +61,14 @@ console.log('✌️persons --->', persons);
       // const persiano=persons.concat(newPerson)
       // // setPersons(persons.concat(newPerson));
       // setPersons(persiano)
-      axios
-    .post('http://localhost:3001/persons', newPerson)
-    .then(response => {
-      setPersons(persons.concat(response.data))
-      //setNewNote('')
-    })
+      const addedPerson = await personService.addPerson(newPerson);
+      setPersons(persons.concat(addedPerson));
+    //   axios
+    // .post('http://localhost:3001/persons', newPerson)
+    // .then(response => {
+    //   setPersons(persons.concat(response.data))
+    //   //setNewNote('')
+    // })
       console.log('persons.concat(newPerson) --->', persons.concat(newPerson));
        setNewName("")
        setNewNum("")
