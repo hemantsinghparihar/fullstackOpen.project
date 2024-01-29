@@ -41,21 +41,29 @@ console.log('✌️persons --->', persons);
       number:newNum,
      }
      //checking if the person already exists
-     const areObjEqual=(person,newPerson)=>{
+    //  const areObjectsEqual=(person,newPerson)=>{
       
-      if(person.name.toLowerCase()===newPerson.name.toLowerCase()){
-        return true 
-      }
-      else{
-        return false //if the name do not match with any existing name return a false
-      }
+    //   if(person.name.toLowerCase()===newPerson.name.toLowerCase()){
+    //     return true 
+    //   }
+    //   else{
+    //     return false //if the name do not match with any existing name return a false
+    //   }
             
-     }
-     console.log('✌️persons before comparing --->', persons);
-     const ifAleadyExists=persons.some(person=>areObjEqual(person,newPerson))
+    //  }
+    //  console.log('✌️persons before comparing --->', persons);
+    //  const ifAleadyExists=persons.some(person=>areObjectsEqual(person,newPerson))
+
+    
+  const existingPerson = persons.find(person => person.name.toLowerCase() === newPerson.name.toLowerCase());
  
-     if(ifAleadyExists){
-      alert(`${newPerson.name} already exists here bro stop copying other's name  please!`)
+     if(existingPerson){
+      //alert(`${newPerson.name} already exists here bro stop copying other's name  please!`)
+      const wantToChange=window.confirm(`${newPerson.name} exists in db,do you want to update the number?`);
+      if(wantToChange){
+        const updatedPerson = await personService.updateNumber(existingPerson.id, newPerson);
+        setPersons(persons.map(person => (person.id === updatedPerson.id ? updatedPerson : person)));
+      }
      }
      else{
       // const persiano=persons.concat(newPerson)
@@ -75,6 +83,16 @@ console.log('✌️persons --->', persons);
     }
      
 
+  }
+  // --------delete
+  const handleDeletePerson=async(id)=>{
+     console.log('✌️id --->', id);
+     const personToBeDeleted= persons.find(person => person.id === id)
+     const confirmation=window.confirm(`sure you wanna delete ${personToBeDeleted.name}`)
+     if(confirmation){
+      await  personService.deletePerson(id);
+      setPersons(persons.filter(person => person.id !== id))//this is because we instantly want to render the list of new users after deletion. if we dont do it the user will still get deleted but we cant see any changes in our list untill we reload it
+     }
   }
   // -------------------handling input-----------------------------------
   const handleNewName=(event)=>{
@@ -128,7 +146,7 @@ console.log('✌️persons --->', persons);
           <button type="submit">add</button>
         </div>
       </form> */}
-      <Numbers persons={persons}/>
+      <Numbers persons={persons} handleDeletePerson={handleDeletePerson}/>
       {/* <h2>Numbers</h2>
       {persons.map(person=>
         <p key={person.name}>{person.name} -  {person.number}</p>
