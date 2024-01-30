@@ -1,7 +1,7 @@
 import React from 'react'
 
 function AddPerson(props) {
-    const{newName,handleNewName,newNum,handleNewNum,handleAddPerson}=props
+    const{newName,handleNewName,newNum,handleNewNum,handleAddPerson,handleNotification}=props
   return (
     <div>
       <form onSubmit={handleAddPerson}>
