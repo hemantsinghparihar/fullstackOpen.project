@@ -1,0 +1,182 @@
+import React from 'react'
+
+function ShowFiltered(props) {
+    console.log(props.setFilter,"what the hell is the value of setFilter ")
+
+   if(props.filteredCountries.length>=10){
+    return(
+        <>
+            <div style={{ color: 'red' }}>
+             {props.message }
+             </div>
+        </>
+    )
+   }  
+   else{
+    if(props.filteredCountries.length==1){
+        return(
+            <React.Fragment>
+             {props.filteredCountries.map(one => (
+                <div key={one.name.common}>
+                  <h1>{one.name.common}</h1>
+                  <h3>{one.capital[0]}</h3>
+                  <h3>languages</h3>
+                  <ul>
+                  {Object.values(one.languages).map(single=><li key={single}>{single}</li>)}
+                  </ul>
+                  <div><img src={one.flags.png }alt="" /></div>
+                  
+                </div>
+              ))}
+            </React.Fragment>
+        )
+    }
+    else{
+     return (
+        <div>
+           {props.filteredCountries.map(one => (
+            <div  key={one.name.common}>
+                <p>{one.name.common}</p>
+                <button value={one.name.common} onClick={(event)=>{props.setFilter(event.target.value)}}>show</button>
+            </div>
+             
+           ))}
+        </div>
+      )
+     }
+   }
+   
+}
+
+export default ShowFiltered
+
+
+
+//////////////////////////////////////////////////////new component
+import React from 'react'
+
+function ShowFiltered(props) {
+    
+  const handleButtonClick = (countryName) => {
+    props.setFilter(countryName.toLowerCase());
+  };
+
+   if(props.filteredCountries.length>=10){
+    return(
+        <>
+            <div style={{ color: 'red' }}>
+             {props.message }
+             </div>
+        </>
+    )
+   }  
+   else{
+    if(props.filteredCountries.length==1){
+        return(
+            <React.Fragment>
+             {props.filteredCountries.map(one => (
+                <div key={one.name.common}>
+                  <h1>{one.name.common}</h1>
+                  <h3>{one.capital[0]}</h3>
+                  <h3>languages</h3>
+                  <ul>
+                  {Object.values(one.languages).map(single=><li key={single}>{single}</li>)}
+                  </ul>
+                  <div><img src={one.flags.png }alt="" /></div>
+                  
+                </div>
+              ))}
+            </React.Fragment>
+        )
+    }
+    else{
+         
+     return (
+        <div>
+           {props.filteredCountries.map(one => (
+            <div  key={one.name.common}>
+                <p>{one.name.common}</p>
+                <button value={one.name.common} onClick={()=>{handleButtonClick(one.name.common)}}>show</button>
+                 
+            </div>
+             
+           ))}
+        </div>
+      )
+     }
+   }
+   
+}
+
+export default ShowFiltered
+
+/////////////////////////////////////////////////////////////////////////////////
+
+const App = () => {
+  const [countryName, setCountryName] = useState('');
+  const [countries, setCountries] = useState([]);
+  const [showCountry, setShowCountry] = useState({
+    show: false,
+    selectedCountry: ''
+  })
+
+  useEffect(() => {
+    axios.get(`https://studies.cs.helsinki.fi/restcountries/api/all`)
+      .then((response) => {
+        setCountries(response.data)
+      })
+  }, [])
+
+  const countryChangeHandler = (event) => {
+    setCountryName(event.target.value)
+    setShowCountry({
+      show: false,
+      selectedCountry: ''
+    })
+  }
+
+  const showCountryInfo = (country) => {
+    setShowCountry({
+      show: true,
+      selectedCountry: country
+    })
+  }
+
+  const countriesToDisplay = 
+    countryName === '' 
+      ? countries 
+      : countries.filter((country) => 
+          country.name.common.toLocaleLowerCase().includes(countryName.toLocaleLowerCase())
+        )
+
+  return (
+    <>
+      find countries <input value={countryName} onChange={countryChangeHandler} />
+      {countriesToDisplay.length > 10 
+        ? <div>Too many matches specify another filter</div>
+        : 
+        <>
+          {countriesToDisplay.length === 1
+            ?
+            <CountryInfo country={countriesToDisplay[0]} />
+            :
+            <>
+              {showCountry.show 
+                ? <CountryInfo country={showCountry.selectedCountry} />
+                :
+                <>
+                  {countriesToDisplay.map((country) => 
+                    <div key={country.name.common}>{country.name.common} <button key={country.name.common} onClick={() => showCountryInfo(country)}>show</button> </div>
+                  )}
+                </>
+              }
+            </>
+          }
+          
+        </>
+      }
+    </>
+  )
+}
+
+export default App

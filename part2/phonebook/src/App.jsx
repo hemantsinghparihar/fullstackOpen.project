@@ -124,6 +124,7 @@ console.log('✌️existingPerson --->', existingPerson);
     console.log('✌️event.target.value() --->', event.target.value);//in the event.target.value we receive the inputs that the user is typing on every time he enters a letter we recieve that letter
     setNewNum(event.target.value)
   }
+  // filtering---
   const hadleFiltering=(event)=>{
     const filter=event.target.value.toLowerCase();
 
@@ -132,7 +133,12 @@ console.log('✌️existingPerson --->', existingPerson);
      const filtered = persons.filter(user =>
       user.name.toLowerCase().includes(filter)
     );
-    setfilterUser(filtered)
+    if(filter==''){
+      setfilterUser([])
+    }
+    else{
+      setfilterUser(filtered)
+    }
     
 
   }
