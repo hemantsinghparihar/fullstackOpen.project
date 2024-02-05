@@ -1,9 +1,14 @@
+require('dotenv').config();
 const express=require("express");
 const morgan=require("morgan");
 const app=express();
-const PORT=3001;
+const cors=require("cors");
+
+const PORT=process.env.PORT ||7000;
+console.log('✌️PORT --->', PORT);
 
 app.use(express.json());
+app.use(cors())
 
 //app.use(morgan('dev'));
 
