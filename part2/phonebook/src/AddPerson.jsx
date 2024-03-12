@@ -7,7 +7,7 @@ function AddPerson(props) {
       <form onSubmit={handleAddPerson}>
         <div>
           name: <input type='text' value={newName} onChange={handleNewName}/>
-          number: <input type='number' value={newNum} onChange={handleNewNum}/> 
+          number: <input type='text' value={newNum} onChange={handleNewNum}/> 
         </div>
         <div>
           <button type="submit">add</button>

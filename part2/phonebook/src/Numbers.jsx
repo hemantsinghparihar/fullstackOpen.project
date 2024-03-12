@@ -6,8 +6,8 @@ function Numbers(props) {
     <div>
       <h2>Numbers</h2>
       {persons.map(person=>
-        <React.Fragment key={person.id}>
-        <p>{person.name} - {person.number} <button onClick={() => handleDeletePerson(person.id)}>Delete</button></p>
+        <React.Fragment key={person._id}>
+        <p>{person.name} - {person.number} <button onClick={() => handleDeletePerson(person._id)}>Delete</button></p>
       </React.Fragment>
         )}
     </div>
