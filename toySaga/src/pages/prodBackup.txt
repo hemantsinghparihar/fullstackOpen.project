@@ -1,0 +1,410 @@
+import React, { useEffect, useState } from "react";
+import "../App.css";
+import productService from "../services/productService";
+import Product from "../components/ui/SingleProduct";
+// import prodOne from "./assets/images/prod/prod-one.png";
+// import prodTwo from "./assets/images/prod/prod-two.png";
+// import prodThree from "./assets/images/prod/prod-three.png";
+// import prodFour from "./assets/images/prod/prod-four.png";
+// import prodFive from "./assets/images/prod/prod-five.png";
+// import prodSix from "./assets/images/prod/prod-six.png";
+// import prodSeven from "./assets/images/prod/prod-seven.png";
+// import prodEight from "./assets/images/prod/prod-eight.png";
+// import prodNine from "./assets/images/prod/prod-nine.png";
+
+function Products() {
+  const [products, setProducts] = useState({});
+  console.log("✌️products --->", products);
+
+  console.log("✌️products.data --->", products.data);
+
+  useEffect(() => {
+    const element = document.getElementById("header");
+    element.scrollIntoView(true);
+    document.title = "ToySaga || Products";
+  }, []);
+  useEffect(() => {
+    productService.getProducts().then((res) => {
+      setProducts(res);
+    });
+  }, []);
+
+  return (
+    <div>
+      <main className="Products-page">
+        <section className="BreadCrumssec">
+          <div className="container">
+            <div className="bredContent">
+              <h1>All Products</h1>
+            </div>
+          </div>
+        </section>
+
+        <section className="Card-content same-space mb-5">
+          <div className="container">
+            <div className="CardWrapper">
+              <div className="row">
+                <div className="col-sm-12 col-md-8">
+                  <form action="#">
+                    <div className="row">
+                      <div className="col-sm-12 col-md-5">
+                        <select name="all-categories" id="all-categories">
+                          <option value="one">All Categories</option>
+                          <option value="two">categories two</option>
+                          <option value="three">categories three</option>
+                        </select>
+                      </div>
+                      <div className="col-sm-12 col-md-3">
+                        <select name="all-categories" id="all-categories">
+                          <option value="one">Age</option>
+                          <option value="two">categories two</option>
+                          <option value="three">categories three</option>
+                        </select>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <div className="col-sm-12 col-md-4 rtlBtn">
+                  <button className="fillBtn radiusBtn">
+                    <span className="BtnIcon">
+                      <i className="fa-light fa-file-lines"></i>
+                    </span>{" "}
+                    Download Brochure
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="Product-Sec same-space pb-5">
+          <div className="container">
+            
+            <div className="row">
+              <div className="col-sm-12 col-md-4">
+                <div className="prod-Box">
+                  <div className="prod-Img-Box">
+                    {/* <img src={prodOne} alt=""/> */}
+
+                    <img
+                      src={`http://localhost:1337${
+                        products.data
+                          ? products.data[0].attributes.productImage.data[0]
+                              .attributes.url
+                          : "null"
+                      }`}
+                      alt=""
+                    />
+
+                    {/* <img src={`http://localhost:1337${aboutData.data[0].attributes.image.data.attributes.url
+                           }`} alt="mission" /> */}
+                    {/* {products.data && (
+                              <img src={`http://localhost:1337${products.data[0].attributes.productImage.data.attributes.url
+                           }`} alt="mission" />
+                           )} */}
+                  </div>
+                  <div className="prodContent">
+                    {/* <h5>Image title goes here</h5> */}
+                    <h5>
+                      {products.data
+                        ? products.data[0].attributes.productTitle
+                        : "title"}
+                    </h5>
+                    <p>
+                      {products.data
+                        ? products.data[0].attributes.productInfo
+                        : "info"}
+                    </p>
+                    <a href="#">
+                      {products.data
+                        ? products.data[0].attributes.linkText
+                        : "info"}
+                    </a>
+                    {/* <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+                                    nonumy eirmod tempor invidunt ut labore et dolore magna
+                                    aliquyam erat, sed diam voluptua</p> */}
+                    {/* <a href="#">Read More</a> */}
+                  </div>
+                </div>
+              </div>
+              <div className="col-sm-12 col-md-4">
+                <div className="prod-Box">
+                  <div className="prod-Img-Box">
+                    {/* <img src={prodTwo} alt=""/> */}
+                    <img
+                      src={`http://localhost:1337${
+                        products.data
+                          ? products.data[1].attributes.productImage.data[0]
+                              .attributes.url
+                          : "null"
+                      }`}
+                      alt=""
+                    />
+                  </div>
+                  <div className="prodContent">
+                    <h5>
+                      {products.data
+                        ? products.data[1].attributes.productTitle
+                        : "title"}
+                    </h5>
+                    <p>
+                      {products.data
+                        ? products.data[1].attributes.productInfo
+                        : "info"}
+                    </p>
+                    <a href="#">
+                      {products.data
+                        ? products.data[1].attributes.linkText
+                        : "info"}
+                    </a>
+                    {/* <h5>Image title goes here</h5>
+                                <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+                                    nonumy eirmod tempor invidunt ut labore et dolore magna
+                                    aliquyam erat, sed diam voluptua</p>
+                                <a href="#">Read More</a> */}
+                  </div>
+                </div>
+              </div>
+
+              {/* ============================================================================//////// */}
+              
+              <Product products={products} />
+              
+
+              <div className="col-sm-12 col-md-4">
+                <div className="prod-Box">
+                  <div className="prod-Img-Box">
+                    {/* <img src={prodFour} alt=""/> */}
+                    <img
+                      src={`http://localhost:1337${
+                        products.data
+                          ? products.data[3].attributes.productImage.data[0]
+                              .attributes.url
+                          : "null"
+                      }`}
+                      alt=""
+                    />
+                  </div>
+                  <div className="prodContent">
+                    <h5>
+                      {products.data
+                        ? products.data[3].attributes.productTitle
+                        : "title"}
+                    </h5>
+                    <p>
+                      {products.data
+                        ? products.data[3].attributes.productInfo
+                        : "info"}
+                    </p>
+                    <a href="#">
+                      {products.data
+                        ? products.data[3].attributes.linkText
+                        : "info"}
+                    </a>
+                    {/* <h5>Image title goes here</h5>
+                                <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+                                    nonumy eirmod tempor invidunt ut labore et dolore magna
+                                    aliquyam erat, sed diam voluptua</p>
+                                <a href="#">Read More</a> */}
+                  </div>
+                </div>
+              </div>
+              <div className="col-sm-12 col-md-4">
+                <div className="prod-Box">
+                  <div className="prod-Img-Box">
+                    {/* <img src={prodFive} alt=""/> */}
+                    <img
+                      src={`http://localhost:1337${
+                        products.data
+                          ? products.data[4].attributes.productImage.data[0]
+                              .attributes.url
+                          : "null"
+                      }`}
+                      alt=""
+                    />
+                  </div>
+                  <div className="prodContent">
+                    <h5>
+                      {products.data
+                        ? products.data[4].attributes.productTitle
+                        : "title"}
+                    </h5>
+                    <p>
+                      {products.data
+                        ? products.data[4].attributes.productInfo
+                        : "info"}
+                    </p>
+                    <a href="#">
+                      {products.data
+                        ? products.data[4].attributes.linkText
+                        : "info"}
+                    </a>
+                    {/* <h5>Image title goes here</h5>
+                                <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+                                    nonumy eirmod tempor invidunt ut labore et dolore magna
+                                    aliquyam erat, sed diam voluptua</p>
+                                <a href="#">Read More</a> */}
+                  </div>
+                </div>
+              </div>
+              <div className="col-sm-12 col-md-4">
+                <div className="prod-Box">
+                  <div className="prod-Img-Box">
+                    {/* <img src={prodSix} alt=""/> */}
+                    <img
+                      src={`http://localhost:1337${
+                        products.data
+                          ? products.data[5].attributes.productImage.data[0]
+                              .attributes.url
+                          : "null"
+                      }`}
+                      alt=""
+                    />
+                  </div>
+                  <div className="prodContent">
+                    <h5>
+                      {products.data
+                        ? products.data[5].attributes.productTitle
+                        : "title"}
+                    </h5>
+                    <p>
+                      {products.data
+                        ? products.data[5].attributes.productInfo
+                        : "info"}
+                    </p>
+                    <a href="#">
+                      {products.data
+                        ? products.data[5].attributes.linkText
+                        : "info"}
+                    </a>
+                    {/* <h5>Image title goes here</h5>
+                                <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+                                    nonumy eirmod tempor invidunt ut labore et dolore magna
+                                    aliquyam erat, sed diam voluptua</p>
+                                <a href="#">Read More</a> */}
+                  </div>
+                </div>
+              </div>
+              <div className="col-sm-12 col-md-4">
+                <div className="prod-Box">
+                  <div className="prod-Img-Box">
+                    {/* <img src={prodSeven} alt="" /> */}
+                    <img
+                      src={`http://localhost:1337${
+                        products.data
+                          ? products.data[6].attributes.productImage.data[0]
+                              .attributes.url
+                          : "null"
+                      }`}
+                      alt=""
+                    />
+                  </div>
+                  <div className="prodContent">
+                    <h5>
+                      {products.data
+                        ? products.data[6].attributes.productTitle
+                        : "title"}
+                    </h5>
+                    <p>
+                      {products.data
+                        ? products.data[6].attributes.productInfo
+                        : "info"}
+                    </p>
+                    <a href="#">
+                      {products.data
+                        ? products.data[6].attributes.linkText
+                        : "info"}
+                    </a>
+                    {/* <h5>Image title goes here</h5>
+                                <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+                                    nonumy eirmod tempor invidunt ut labore et dolore magna
+                                    aliquyam erat, sed diam voluptua</p>
+                                <a href="#">Read More</a> */}
+                  </div>
+                </div>
+              </div>
+              <div className="col-sm-12 col-md-4">
+                <div className="prod-Box">
+                  <div className="prod-Img-Box">
+                    {/* <img src={prodEight} alt=""/> */}
+                    <img
+                      src={`http://localhost:1337${
+                        products.data
+                          ? products.data[7].attributes.productImage.data[0]
+                              .attributes.url
+                          : "null"
+                      }`}
+                      alt=""
+                    />
+                  </div>
+                  <div className="prodContent">
+                    <h5>
+                      {products.data
+                        ? products.data[7].attributes.productTitle
+                        : "title"}
+                    </h5>
+                    <p>
+                      {products.data
+                        ? products.data[7].attributes.productInfo
+                        : "info"}
+                    </p>
+                    <a href="#">
+                      {products.data
+                        ? products.data[7].attributes.linkText
+                        : "info"}
+                    </a>
+                    {/* <h5>Image title goes here</h5>
+                                <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+                                    nonumy eirmod tempor invidunt ut labore et dolore magna
+                                    aliquyam erat, sed diam voluptua</p>
+                                <a href="#">Read More</a> */}
+                  </div>
+                </div>
+              </div>
+              <div className="col-sm-12 col-md-4">
+                <div className="prod-Box">
+                  <div className="prod-Img-Box">
+                    {/* <img src={prodNine} alt=""/> */}
+                    <img
+                      src={`http://localhost:1337${
+                        products.data
+                          ? products.data[8].attributes.productImage.data[0]
+                              .attributes.url
+                          : "null"
+                      }`}
+                      alt=""
+                    />
+                  </div>
+                  <div className="prodContent">
+                    <h5>
+                      {products.data
+                        ? products.data[8].attributes.productTitle
+                        : "title"}
+                    </h5>
+                    <p>
+                      {products.data
+                        ? products.data[8].attributes.productInfo
+                        : "info"}
+                    </p>
+                    <a href="#">
+                      {products.data
+                        ? products.data[8].attributes.linkText
+                        : "info"}
+                    </a>
+                    {/* <h5>Image title goes here</h5>
+                                <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+                                    nonumy eirmod tempor invidunt ut labore et dolore magna
+                                    aliquyam erat, sed diam voluptua</p>
+                                <a href="#">Read More</a> */}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  );
+}
+
+export default Products;
